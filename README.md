@@ -57,11 +57,12 @@ TODO
 
 ## Time Estimate
 
-Total: 3.5/25 hours
+Total: 25 hours
+Current: 4.5 hours (20.5 hours to go)
 
 - Catch up                                                                  -- 3.5/6
 
-- Basic setup                                                               -- 3
+- Basic setup                                                               -- 1/3
   - database -- 1
   - frontend -- 2
 
