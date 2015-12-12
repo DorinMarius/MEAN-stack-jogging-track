@@ -1,6 +1,6 @@
 # Toptal Technical Interview 2
 
-## Write an application that tracks jogging times of users
+## Spec: Write an application that tracks jogging times of users
 
 - User must be able to create an account and log in
   (If a mobile application, this means that more users can use the app from the same phone)
@@ -36,6 +36,24 @@
 - Bonus: unit and e2e tests!
 
 - You will not be marked on graphic design, however, do try to keep it as tidy as possible.
+
+## Before Dev/Run
+
+- install loopback globally
+- install webpack globally
+- `npm install`
+
+## Dev
+
+TODO
+
+## Before Deploy
+
+TODO
+
+## Run
+
+TODO
 
 ## Time Estimate
 

@@ -4,6 +4,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node .",
+    "webpack": "webpack --progress --colors --watch",
     "pretest": "jshint ."
   },
   "dependencies": {
