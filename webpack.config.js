@@ -10,7 +10,7 @@ module.exports = {
 
   output: {
     path: path.join(root, './target'),
-    filename: 'bundle.js'
+    filename: 'bundle/app.js'
   },
 
   module: {
@@ -21,8 +21,12 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /\.(html|css)$/,
+        test: /\.html$/,
         loader: 'file?name=[name].[ext]'
+      },
+      {
+        test: /\.css$/,
+        loader: 'file?name=bundle/[name].[ext]'
       }
     ]
   }
