@@ -1,7 +1,15 @@
 import React from "react";
 import ReactDom from "react-dom";
 
-import {createStore, compose, combineReducers} from 'redux';
+import {
+  createStore,
+  compose,
+  combineReducers,
+  applyMiddleware
+} from 'redux';
+
+import thunkMiddleware from 'redux-thunk'
+
 import {Provider} from 'react-redux';
 
 import {Route, IndexRoute, Link} from 'react-router';
@@ -13,6 +21,8 @@ import {
 import {createHistory} from 'history';
 
 import {Grid} from 'react-bootstrap';
+
+import sessionReducer from './reducers/session';
 
 import Navbar from './components/Navbar';
 import Welcome from './components/Welcome';
@@ -31,10 +41,14 @@ const App = ({
 );
 
 const reducer = combineReducers({
+  session: sessionReducer,
   router: routerStateReducer
 });
 
 const store = compose(
+  applyMiddleware(
+    thunkMiddleware
+  ),
   reduxReactRouter({createHistory})
 )(createStore)(reducer);
 

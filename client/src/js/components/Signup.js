@@ -1,45 +1,23 @@
 import React, {Component} from 'react';
 import {Input, Button} from 'react-bootstrap';
-
-const formStyle = {
-  maxWidth: '330px',
-  margin: '0 auto'
-};
-
-const headerStyle = {
-  margin: '10px 0 15px 0'
-};
-
-const inputStyle = {
-  height: 'auto',
-  padding: '10px',
-  fontSize: '16px'
-};
-
-const topInputStyle = Object.assign({
-  marginBottom: '-1px',
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
-}, inputStyle);
-
-const middleInputStyle = Object.assign({
-  marginBottom: '-1px',
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
-  borderTopLeftRadius: 0,
-  borderTopRightRadius: 0
-}, inputStyle);
-
-const bottomInputStyle = Object.assign({
-  borderTopLeftRadius: 0,
-  borderTopRightRadius: 0,
-  marginBottom: '15px'
-}, inputStyle);
+import {
+  formStyle,
+  headerStyle,
+  topInputStyle,
+  middleInputStyle,
+  bottomInputStyle
+} from '../styles/session-form';
 
 export default class Signup extends Component {
   signup = () => {
     const email = this.refs.email.value;
-    console.log(email);
+    const password = this.refs.password.value;
+    const passwordConfirm = this.refs.passwordConfirm.value;
+
+    if (password !== passwordConfirm) {
+      alert('Password not match');
+      return;
+    }
   }
 
   render() {

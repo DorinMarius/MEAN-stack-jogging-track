@@ -66,8 +66,8 @@ Current: 11.5 hours (14.5 hours to go)
   - database -- 1
   - frontend -- 2
 
-- User must be able to create an account and log in                         -- 3 (lack frontend)
-  - password confirmation
+- User must be able to create an account and log in                         -- 4/3 (lack frontend)
+  - password confirmation -- done
   - login error handle
   - register email check(validation & duplication) - loopback supported
 
