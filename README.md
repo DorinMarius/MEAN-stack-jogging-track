@@ -57,28 +57,28 @@ TODO
 
 ## Time Estimate
 
-Total: 25 hours
-Current: 4.5 hours (20.5 hours to go)
+Total: 26 hours
+Current: 10.5 hours (15.5 hours to go)
 
-- Catch up                                                                  -- 4/6
+- Catch up                                                                  -- 9/9
 
 - Basic setup                                                               -- 1.5/3
   - database -- 1
   - frontend -- 2
 
-- User must be able to create an account and log in                         -- 3
+- User must be able to create an account and log in                         -- 3 (lack frontend)
   - password confirmation
   - login error handle
   - register email check(validation & duplication) - loopback supported
 
-- When logged in, user can see, edit and delete his times he entered        -- 3
+- When logged in, user can see, edit and delete his times he entered        -- 3 (ACL)
 
-- Implement at least two roles with different permission levels             -- 3
+- Implement at least two roles with different permission levels             -- 3 (ACL)
   (ie: a regular user would only be able to CRUD on his owned records,
   a user manager would be able to CRUD users,
   an admin would be able to CRUD on all records and users, etc.)
 
-- Each time entry when entered has a date, distance, and time               -- 1
+- Each time entry when entered has a date, distance, and time               -- 1 (need test)
 
 - When displayed, each time entry has an average speed                      -- 1
 
