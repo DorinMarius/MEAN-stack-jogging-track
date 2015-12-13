@@ -58,18 +58,18 @@ TODO
 ## Time Estimate
 
 Total: 26 hours
-Current: 10.5 hours (15.5 hours to go)
+Current: 11.5 hours (14.5 hours to go)
 
 - Catch up                                                                  -- 9/9
 
-- Basic setup                                                               -- 1.5/3
+- Basic setup                                                               -- 2.5/3
   - database -- 1
   - frontend -- 2
 
-- User must be able to create an account and log in                         -- 3 (lack frontend)
-  - password confirmation
-  - login error handle
-  - register email check(validation & duplication) - loopback supported
+- User must be able to create an account and log in                         -- 4/3 (lack frontend)
+  - password confirmation -- done
+  - login error handle -- done
+  - register email check(validation & duplication) - done
 
 - When logged in, user can see, edit and delete his times he entered        -- 3 (ACL)
 
@@ -109,3 +109,8 @@ Current: 10.5 hours (15.5 hours to go)
 - e2e tests 5
 - Dockerize it
 - mobile: React Native - same time as web
+
+- web minor
+  - session form enter to login/signup
+  - improve error handle
+    - email duplicate error

@@ -24,7 +24,10 @@
   },
   "files": {
     "loopback#static": {
-      "params": "$!../client/target"
+      "paths": [
+        "/bundle"
+      ],
+      "params": "$!../client/target/bundle"
     }
   },
   "final": {
