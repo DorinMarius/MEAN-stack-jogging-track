@@ -31,5 +31,9 @@
   "Role": {
     "dataSource": "mongoDB",
     "public": false
+  },
+  "JogRecord": {
+    "dataSource": "mongoDB",
+    "public": true
   }
 }
