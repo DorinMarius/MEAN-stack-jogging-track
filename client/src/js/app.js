@@ -1,6 +1,7 @@
 import React from "react";
+import ReactDom from "react-dom";
 
-React.render(
+ReactDom.render(
   <div>Hello React</div>,
   document.getElementById("container")
 );
