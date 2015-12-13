@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+
 import {Input, Button} from 'react-bootstrap';
 import {
   formStyle,
@@ -8,7 +10,9 @@ import {
   bottomInputStyle
 } from '../styles/session-form';
 
-export default class Signup extends Component {
+import {signup} from '../actions';
+
+class Signup extends Component {
   signup = () => {
     const email = this.refs.email.value;
     const password = this.refs.password.value;
@@ -18,6 +22,9 @@ export default class Signup extends Component {
       alert('Password not match');
       return;
     }
+
+    const {dispatch} = this.props;
+    dispatch(signup(email, password));
   }
 
   render() {
@@ -55,3 +62,5 @@ export default class Signup extends Component {
     );
   }
 };
+
+export default connect()(Signup)

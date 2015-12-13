@@ -1,9 +1,7 @@
 import $ from 'jquery';
 
 // ===== Error =====
-export const ERROR = 'ERROR';
-
-export const error = (err) => {
+export const handleError = (err) => {
   let msg = err;
 
   if (err.message) {
@@ -35,7 +33,7 @@ export const login = (email, password) => {
       url: `${API_ROOT}/users/login`,
       data: {email, password},
       dataType: 'json'
-    }).fail(error).
+    }).fail(handleError).
     done((json) => {
       dispatch({
         type: USER_LOGGED_IN,
@@ -49,5 +47,19 @@ export const login = (email, password) => {
 export const logout = () => {
   return {
     type: USER_LOGGED_OUT
+  }
+}
+
+export const signup = (email, password) => {
+  return dispatch => {
+    $.ajax({
+      method: 'post',
+      url: `${API_ROOT}/users`,
+      data: {email, password},
+      dataType: 'json'
+    }).fail(handleError).
+    done((json) => {
+      login(email, password)(dispatch);
+    });
   }
 }

@@ -41,8 +41,8 @@ class MyNavbar extends Component {
       </Nav>
     ) : (
       <Nav pullRight>
-        <NavItem onClick={this.goto('signup')}>Sign Up</NavItem>
-        <NavItem onClick={this.goto('login')}>Log In</NavItem>
+        <NavItem onClick={this.goto('/signup')}>Sign Up</NavItem>
+        <NavItem onClick={this.goto('/login')}>Log In</NavItem>
       </Nav>
     );
 
