@@ -60,21 +60,22 @@ TODO
 Total: 26 hours
 Current: 11.5 hours (14.5 hours to go)
 
-- Catch up                                                                  -- 9/9
+- Catch up                                                                  -- 9/9 (done
 
-- Basic setup                                                               -- 2.5/3
+- Basic setup                                                               -- 2.5/3 (done
   - database -- 1
   - frontend -- 2
 
-- User must be able to create an account and log in                         -- 4/3 (lack frontend)
+- User must be able to create an account and log in                         -- 4/3 (done
   - password confirmation -- done
   - login error handle -- done
   - register email check(validation & duplication) - done
 
 - When logged in, user can see, edit and delete his times he entered        -- 3 (ACL)
   - api -- done
-  - records/:id
+  - prepare dev data
   - records
+  - records/:id
 
 - Implement at least two roles with different permission levels             -- 3 (ACL)
   (ie: a regular user would only be able to CRUD on his owned records,
