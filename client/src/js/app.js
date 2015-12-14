@@ -25,9 +25,9 @@ import {Grid} from 'react-bootstrap';
 import sessionReducer from './reducers/session';
 
 import Navbar from './components/Navbar';
-import Welcome from './components/Welcome';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import JogRecords from './components/JogRecords'
 
 const App = ({
   children
@@ -55,7 +55,7 @@ const store = compose(
 const routes = (
   <ReduxRouter>
     <Route path="/" component={App}>
-      <IndexRoute component={Welcome} />
+      <IndexRoute component={JogRecords} />
 
       <Route path="signup" component={Signup} />
       <Route path="login" component={Login} />
@@ -69,6 +69,11 @@ const Root = () => (
     {routes}
   </Provider>
 )
+
+store.subscribe(() => {
+  const {session} = store.getState();
+  localStorage.setItem('session', JSON.stringify(session));
+});
 
 ReactDom.render(
   <Root />,
