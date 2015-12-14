@@ -59,11 +59,8 @@ TODO
 
 - When logged in, user can see, edit and delete his times he entered        -- 3 (ACL)
   - records -- doing
-    - show
     - filter from-to
-    - per week
-      - average speed & distance
-    - When displayed, each time entry has an average speed
+    - create
     - edit inline
     - delete
 
@@ -74,6 +71,7 @@ TODO
 
   - admin page
     - assign user manager
+    - all jog function for every user
   - user manager page
     - user management
 
