@@ -8,20 +8,26 @@ import {Navbar, Nav, NavItem} from 'react-bootstrap';
 import {logout} from '../actions';
 
 class MyNavbar extends Component {
-  shouldComponentUpdate = ({isLoggedIn, isInSessionPath, dispatch}) => {
+  checkSession = (props = this.props) => {
+    const {isLoggedIn, isInSessionPath, dispatch} = props;
+
     if (isLoggedIn) {
       if (isInSessionPath) {
         dispatch(pushState(null, '/'));
-        return false;
       }
     } else {
       if (!isInSessionPath) {
         dispatch(pushState(null, '/login'));
-        return false;
       }
     }
+  }
 
-    return true;
+  componentDidMount = () => {
+    this.checkSession();
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    this.checkSession(nextProps);
   }
 
   goto = (path) => () => {
