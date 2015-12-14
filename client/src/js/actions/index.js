@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Promise from 'bluebird';
 
 // ===== Error =====
 export const handleError = (err) => {
@@ -17,11 +18,21 @@ export const handleError = (err) => {
   alert(msg);
 };
 
+const $get = ({path, token}) => {
+  return Promise.resolve($.ajax({
+    method: 'get',
+    url: `${API_ROOT}${path}`,
+    dataType: 'json',
+    headers: {
+      'Authorization': token
+    }
+  })).catch(handleError);
+};
+
 // ===== api =====
+const API_ROOT = '/api';
 
 // ----- session -----
-
-const API_ROOT = '/api';
 
 export const USER_LOGGED_IN = 'USER_LOGGED_IN';
 export const USER_LOGGED_OUT = 'USER_LOGGED_OUT';
@@ -42,13 +53,13 @@ export const login = (email, password) => {
       });
     });
   };
-}
+};
 
 export const logout = () => {
   return {
     type: USER_LOGGED_OUT
-  }
-}
+  };
+};
 
 export const signup = (email, password) => {
   return dispatch => {
@@ -61,5 +72,23 @@ export const signup = (email, password) => {
     done((json) => {
       login(email, password)(dispatch);
     });
-  }
-}
+  };
+};
+
+// ----- jog records -----
+export const JOG_RECORDS_UPDATED = 'JOG_RECORDS_UPDATED';
+export const JOG_RECORD_UPDATED = 'JOG_RECORD_UPDATED';
+
+export const fetchAllJobRecords = (userId, token) => {
+  return dispatch => {
+    $get({
+      path: `/users/${userId}/jogRecords`,
+      token
+    }).done((json) => {
+      dispatch({
+        type: JOG_RECORDS_UPDATED,
+        jogRecords: json
+      });
+    });
+  };
+};

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+
 import {
   Row,
   Col,
@@ -6,13 +8,15 @@ import {
   Panel
 } from 'react-bootstrap';
 
+import {fetchAllJobRecords} from '../actions';
+
 const RecordListCell = ({record}) => {
-  const d = record.distance
+  const d = record.distance;
   const distance = d >= 1000 ?
     (d / 1000).toFixed(2) + 'KM':
     d + 'M';
 
-  const t = record.time
+  const t = record.time;
   const time = t >= 3600 ?
     Math.floor(t / 3600) + 'h' + Math.floor(t % 3600 / 60) + 'm' + Math.floor(t % 60) + 's':
     (t >= 60) ? Math.floor(t % 3600 / 60) + 'm' + Math.floor(t % 60) + 's' :
@@ -30,7 +34,7 @@ const RecordListCell = ({record}) => {
   );
 };
 
-export default () => {
+const JogRecords = () => {
 
   const data = [
     {
@@ -67,3 +71,26 @@ export default () => {
     </div>
   );
 };
+
+class JogRecordsListPage extends Component {
+
+  componentDidMount() {
+    console.log(this.props);
+    const {userId, token} = this.props.session;
+    const {dispatch} = this.props;
+    dispatch(fetchAllJobRecords(userId, token));
+  }
+
+  render() {
+    return <JogRecords />;
+  }
+
+};
+
+const stateToProps = (state) => {
+  return {
+    session: state.session
+  };
+};
+
+export default connect(stateToProps)(JogRecordsListPage);
