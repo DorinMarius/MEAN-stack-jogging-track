@@ -72,11 +72,19 @@ Current: 11.5 hours (14.5 hours to go)
   - register email check(validation & duplication) - done
 
 - When logged in, user can see, edit and delete his times he entered        -- 3 (ACL)
+  - api -- done
+  - records/:id
+  - records
 
 - Implement at least two roles with different permission levels             -- 3 (ACL)
   (ie: a regular user would only be able to CRUD on his owned records,
   a user manager would be able to CRUD users,
   an admin would be able to CRUD on all records and users, etc.)
+
+  - admin page
+    - assign user manager
+  - user manager page
+    - user management
 
 - Each time entry when entered has a date, distance, and time               -- 1 (need test)
 
