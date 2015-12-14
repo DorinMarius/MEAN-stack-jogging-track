@@ -23,6 +23,7 @@ import {createHistory} from 'history';
 import {Grid} from 'react-bootstrap';
 
 import sessionReducer from './reducers/session';
+import jogRecordsReducer from './reducers/jog-records';
 
 import Navbar from './components/Navbar';
 import Login from './components/Login';
@@ -41,8 +42,9 @@ const App = ({
 );
 
 const reducer = combineReducers({
+  router: routerStateReducer,
   session: sessionReducer,
-  router: routerStateReducer
+  jogRecords: jogRecordsReducer
 });
 
 const store = compose(

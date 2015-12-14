@@ -34,30 +34,12 @@ const RecordListCell = ({record}) => {
   );
 };
 
-const JogRecords = () => {
-
-  const data = [
-    {
-      date: '2015-12-12',
-      distance: 100,
-      time: 40
-    },
-    {
-      date: '2015-12-13',
-      distance: 10000,
-      time: 4000
-    },
-    {
-      date: '2015-12-14',
-      distance: 8200,
-      time: 3500
-    },
-    {
-      date: '2015-12-15',
-      distance: 200,
-      time: 300
-    }
-  ];
+const JogRecords = connect(
+  (state) => {
+    return {jogRecords: state.jogRecords};
+  }
+)((props) => {
+  const data = props.jogRecords;
 
   const list = data.
     map((r, i) => <RecordListCell key={i} record={r} />);
@@ -70,12 +52,11 @@ const JogRecords = () => {
       {list}
     </div>
   );
-};
+});
 
 class JogRecordsListPage extends Component {
 
   componentDidMount() {
-    console.log(this.props);
     const {userId, token} = this.props.session;
     const {dispatch} = this.props;
     dispatch(fetchAllJobRecords(userId, token));
