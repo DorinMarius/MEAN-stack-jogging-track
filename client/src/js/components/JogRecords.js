@@ -161,7 +161,7 @@ class JogRecordsListPage extends Component {
 
   render() {
     const filterWrapperStyle = {
-      top: '15px',
+      top: '12px',
       position: 'relative'
     };
 

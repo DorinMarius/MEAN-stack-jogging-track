@@ -59,7 +59,6 @@ TODO
 
 - When logged in, user can see, edit and delete his times he entered        -- 3 (ACL)
   - records -- doing
-    - filter from-to
     - create
     - edit inline
     - delete
