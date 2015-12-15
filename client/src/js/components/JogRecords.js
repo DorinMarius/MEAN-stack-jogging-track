@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 
 import {
-  JogForm
+  NewJogForm
 } from './jog-records-form';
 
 import {
@@ -102,8 +102,10 @@ const JogRecords = connect(
   }
 )(({jogRecords, filterFrom, filterTo}) => {
 
-  const fromWeek = filterFrom ? moment(filterFrom).format('YYYY-WW') : null;
-  const toWeek = filterTo ? moment(filterTo).format('YYYY-WW') : null;
+  const fromWeek = filterFrom ?
+    moment(filterFrom).weekday(0).format('YYYY-WW') : null;
+  const toWeek = filterTo ?
+    moment(filterTo).weekday(0).format('YYYY-WW') : null;
 
   // TODO test it
   const data = _(jogRecords).
@@ -113,7 +115,7 @@ const JogRecords = connect(
         date,
         pace: (r.time / 60) / (r.distance / 1000) ,
         speed: r.distance / r.time,
-        week: date.format('YYYY-WW')
+        week: moment(date).weekday(0).format('YYYY-WW')
       });
     }).
     filter(r => {
@@ -200,7 +202,7 @@ class JogRecordsListPage extends Component {
         <PageHeader>
           Your Jogging Records
         </PageHeader>
-        <JogForm
+        <NewJogForm
           session={this.props.session}
           dispatch={this.props.dispatch}
          />

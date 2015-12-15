@@ -13,7 +13,43 @@ import {
   createJogRecord,
 } from '../actions';
 
-export class JogForm extends Component {
+const JogFields = ({
+  date, distance, time,
+  onDateChange,
+  onDistanceChange,
+  onTimeChange
+}) => {
+  return (
+    <div>
+      <Col md={3}>
+        <Input
+          type="date"
+          label="Date"
+          value={date}
+          onChange={onDateChange}
+        />
+      </Col>
+      <Col md={3}>
+        <Input
+          type="number"
+          label="Distance (in KM)"
+          value={distance}
+          onChange={onDistanceChange}
+        />
+      </Col>
+      <Col md={3}>
+        <Input
+          type="number"
+          label="Time (in seconds)"
+          value={time}
+          onChange={onTimeChange}
+        />
+      </Col>
+    </div>
+  )
+};
+
+export class NewJogForm extends Component {
 
   constructor() {
     super();
@@ -56,9 +92,8 @@ export class JogForm extends Component {
   }
 
   onFieldChange = (fieldName) => {
-    return () => {
-      const field = this.refs[fieldName]
-      const value = field.getValue();
+    return (e) => {
+      const value = e.target.value;
       this.setState({[fieldName]: value});
     }
   }
@@ -77,33 +112,14 @@ export class JogForm extends Component {
         <h3>Create New Records</h3>
         <Panel>
           <Row>
-            <Col md={3}>
-              <Input
-                type="date"
-                label="Date"
-                value={this.state.date}
-                onChange={this.onFieldChange('date')}
-                ref="date"
-              />
-            </Col>
-            <Col md={3}>
-              <Input
-                type="number"
-                label="Distance (in KM)"
-                value={this.state.distance}
-                onChange={this.onFieldChange('distance')}
-                ref="distance"
-              />
-            </Col>
-            <Col md={3}>
-              <Input
-                type="number"
-                label="Time (in seconds)"
-                value={this.state.time}
-                onChange={this.onFieldChange('time')}
-                ref="time"
-              />
-            </Col>
+            <JogFields
+              date={this.state.date}
+              distance={this.state.distance}
+              time={this.state.time}
+              onDateChange={this.onFieldChange('date')}
+              onDistanceChange={this.onFieldChange('distance')}
+              onTimeChange={this.onFieldChange('time')}
+            />
             <Col md={3}>
               <Button
                 bsStyle="primary"
