@@ -7,19 +7,20 @@ import {
   Row,
   Col,
   PageHeader,
-  Panel
+  Panel,
+  Button
 } from 'react-bootstrap';
 
 import {
-  NewJogForm
+  NewJogForm,
+  EditJogForm
 } from './jog-records-form';
 
 import {
-  fetchAllJogRecords,
-  createJogRecord,
+  fetchAllJogRecords
 } from '../actions';
 
-const RecordListCell = ({record}) => {
+const RecordListCell = ({record, onEditBtnClick}) => {
   const d = record.distance;
   const distance = d >= 1000 ?
     (d / 1000).toFixed(2) + ' KM':
@@ -52,11 +53,44 @@ const RecordListCell = ({record}) => {
           <div>Time: {time}</div>
           <div>Average Speed: {speed} M/s</div>
         </Col>
-        <Col md={3}>Action Here</Col>
+        <Col md={3}>
+          <Button
+            onClick={onEditBtnClick}
+          >
+            Edit
+          </Button>
+        </Col>
       </Row>
     </Panel>
   );
 };
+
+class EditableRecordListCell extends Component {
+  state = {
+    editing: false
+  }
+
+  onEditBtnClick = () => {
+    this.setState({editing: true});
+  }
+
+  render() {
+    if (this.state.editing) {
+      return (
+        <EditJogForm
+          record={this.props.record}
+        />
+      );
+    } else {
+      return (
+        <RecordListCell
+          record={this.props.record}
+          onEditBtnClick={this.onEditBtnClick}
+        />
+      );
+    }
+  }
+}
 
 const WeeklyRecords = ({records, filterFrom, filterTo}) => {
   const filterFromM = filterFrom ? moment(filterFrom) : null;
@@ -91,7 +125,7 @@ const WeeklyRecords = ({records, filterFrom, filterTo}) => {
         <span>Average Speed: {aveSpeed} M/s</span>
       </div>
       <h3>{from}~{to}</h3>
-      {filteredData.map(r => <RecordListCell key={r.id} record={r} />)}
+      {filteredData.map(r => <EditableRecordListCell key={r.id} record={r} />)}
     </div>
   );
 };
@@ -179,6 +213,10 @@ class JogRecordsListPage extends Component {
       position: 'relative'
     };
 
+    const newFormWrapperStyle = {
+      marginTop: '40px'
+    };
+
     return (
       <div>
         <div className="pull-right" style={filterWrapperStyle}>
@@ -202,10 +240,13 @@ class JogRecordsListPage extends Component {
         <PageHeader>
           Your Jogging Records
         </PageHeader>
-        <NewJogForm
-          session={this.props.session}
-          dispatch={this.props.dispatch}
-         />
+        <div style={newFormWrapperStyle}>
+          <h3>Create New Records</h3>
+          <NewJogForm
+            session={this.props.session}
+            dispatch={this.props.dispatch}
+           />
+        </div>
         <JogRecords
           filterFrom={this.state.filterFrom}
           filterTo={this.state.filterTo}

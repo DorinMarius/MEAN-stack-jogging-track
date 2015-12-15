@@ -49,11 +49,32 @@ const JogFields = ({
   )
 };
 
+const onFieldChange = (fieldName, setState) => {
+  return (e) => {
+    const value = e.target.value;
+    setState({[fieldName]: value});
+  }
+}
+
+const checkDistanceAndTime = (distance, time) => {
+  if (distance <= 0) {
+    alert('distance must greater then 0');
+    return false;
+  }
+
+  if (time <= 0) {
+    alert('time must greater then 0');
+    return false;
+  }
+
+  return true;
+};
+
 export class NewJogForm extends Component {
 
-  constructor() {
-    super();
-    this.state = this.initState;
+  constructor(props) {
+    super(props);
+    this.state = Object.assign({}, this.initState);
   }
 
   // TODO default date is today
@@ -63,19 +84,13 @@ export class NewJogForm extends Component {
     time: 0
   }
 
+  onFieldChange = (fieldName) => onFieldChange(fieldName, ::this.setState)
+
   createJog = () => {
     const distance = parseFloat(this.state.distance) * 1000;
     const time = parseInt(this.state.time);
 
-    if (distance <= 0) {
-      alert('distance must greater then 0');
-      return;
-    }
-
-    if (time <= 0) {
-      alert('time must greater then 0');
-      return;
-    }
+    if (!checkDistanceAndTime(distance, time)) return;
 
     const {userId, token} = this.props.session;
     const {dispatch} = this.props;
@@ -91,45 +106,98 @@ export class NewJogForm extends Component {
     }));
   }
 
-  onFieldChange = (fieldName) => {
-    return (e) => {
-      const value = e.target.value;
-      this.setState({[fieldName]: value});
-    }
-  }
-
   render() {
-    const wrapperStyle = {
-      marginTop: '40px'
-    };
 
     const btnStyle = {
       marginTop: '25px'
     };
 
     return (
-      <div style={wrapperStyle}>
-        <h3>Create New Records</h3>
-        <Panel>
-          <Row>
-            <JogFields
-              date={this.state.date}
-              distance={this.state.distance}
-              time={this.state.time}
-              onDateChange={this.onFieldChange('date')}
-              onDistanceChange={this.onFieldChange('distance')}
-              onTimeChange={this.onFieldChange('time')}
-            />
-            <Col md={3}>
-              <Button
-                bsStyle="primary"
-                style={btnStyle}
-                onClick={this.createJog}
-              >Create</Button>
-            </Col>
-          </Row>
-        </Panel>
-      </div>
+      <Panel>
+        <Row>
+          <JogFields
+            date={this.state.date}
+            distance={this.state.distance}
+            time={this.state.time}
+            onDateChange={this.onFieldChange('date')}
+            onDistanceChange={this.onFieldChange('distance')}
+            onTimeChange={this.onFieldChange('time')}
+          />
+          <Col md={3}>
+            <Button
+              bsStyle="primary"
+              style={btnStyle}
+              onClick={this.createJog}
+            >Create</Button>
+          </Col>
+        </Row>
+      </Panel>
+    );
+  }
+}
+
+export class EditJogForm extends Component {
+
+  constructor(props) {
+    super(props);
+
+    const {date, distance, time} = props.record;
+    this.state = {
+      date:date.format('YYYY-MM-DD'),
+      distance, time
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {date, distance, time} = nextProps.record;
+    this.setState({date, distance, time});
+  }
+
+  onFieldChange = (fieldName) => onFieldChange(fieldName, ::this.setState)
+
+  updateJog = () => {
+    const distance = parseFloat(this.state.distance) * 1000;
+    const time = parseInt(this.state.time);
+
+    if (!checkDistanceAndTime(distance, time)) return;
+
+    const {userId, token} = this.props.session;
+    const {dispatch} = this.props;
+
+    // dispatch(updateJogRecord({
+    //   date: this.state.date,
+    //   distance,
+    //   time,
+    //   userId,
+    //   token
+    // }));
+  }
+
+  render() {
+    const btnStyle = {
+      marginTop: '25px'
+    };
+
+    return (
+      <Panel>
+        <Row>
+          <JogFields
+            date={this.state.date}
+            distance={this.state.distance}
+            time={this.state.time}
+            onDateChange={this.onFieldChange('date')}
+            onDistanceChange={this.onFieldChange('distance')}
+            onTimeChange={this.onFieldChange('time')}
+          />
+          <Col md={3}>
+            <Button
+              bsStyle="primary"
+              style={btnStyle}
+              onClick={this.updateJog}
+            >Save</Button>
+          </Col>
+        </Row>
+      </Panel>
     );
   }
 }
