@@ -35,7 +35,7 @@
   },
   "JogRecord": {
     "dataSource": "mongoDB",
-    "public": true
+    "public": false
   },
   "user": {
     "dataSource": "mongoDB",
