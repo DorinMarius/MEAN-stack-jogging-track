@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import {
   JOG_RECORDS_UPDATED,
-  JOG_RECORD_UPDATED
+  JOG_RECORD_UPDATED,
+  JOG_RECORD_DELETED,
 } from '../actions';
 
 export default (state = [], action) => {
@@ -19,6 +20,11 @@ export default (state = [], action) => {
           concat([r]).
           concat(state.slice(index + 1));
       }
+    }
+
+    case JOG_RECORD_DELETED: {
+      const {id} = action
+      return state.filter(r => r.id !== id);
     }
 
     default:

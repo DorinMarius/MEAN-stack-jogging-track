@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import moment from 'moment';
 
 import {
@@ -11,6 +12,7 @@ import {
 
 import {
   createJogRecord,
+  deleteJogRecord
 } from '../actions';
 
 const JogFields = ({
@@ -136,7 +138,7 @@ export class NewJogForm extends Component {
   }
 }
 
-export class EditJogForm extends Component {
+class _EditJogForm extends Component {
 
   constructor(props) {
     super(props);
@@ -173,6 +175,18 @@ export class EditJogForm extends Component {
     // }));
   }
 
+  deleteJog = () => {
+    const {userId, token} = this.props.session;
+    const {id} = this.props.record;
+    const {dispatch} = this.props;
+
+    if (!confirm('Are you sure to delete this record?')) return;
+
+    dispatch(deleteJogRecord({
+      id, userId, token
+    }))
+  }
+
   render() {
     const btnStyle = {
       marginTop: '25px'
@@ -194,10 +208,35 @@ export class EditJogForm extends Component {
               bsStyle="primary"
               style={btnStyle}
               onClick={this.updateJog}
-            >Save</Button>
+            >
+              Save
+            </Button>
+            &nbsp;
+            <Button
+              style={btnStyle}
+              onClick={this.cancelEdit}
+            >
+              Cancel
+            </Button>
+            &nbsp;
+            <Button
+              bsStyle="danger"
+              style={btnStyle}
+              onClick={this.deleteJog}
+            >
+              Delete
+            </Button>
           </Col>
         </Row>
       </Panel>
     );
   }
 }
+
+const stateToProps = (state) => {
+  return {
+    session: state.session
+  };
+};
+
+export const EditJogForm = connect(stateToProps)(_EditJogForm);

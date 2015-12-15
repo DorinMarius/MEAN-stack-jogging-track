@@ -47,6 +47,23 @@ const $post = ({path, data, token}) => {
   });
 };
 
+const $put = ({path, data, token}) => {
+  return $request({
+    method: 'put',
+    path,
+    data,
+    token
+  });
+};
+
+const $delete = ({path, token}) => {
+  return $request({
+    method: 'delete',
+    path,
+    token
+  });
+};
+
 // ===== api =====
 const API_ROOT = '/api';
 
@@ -92,6 +109,7 @@ export const signup = (email, password) => {
 // ----- jog records -----
 export const JOG_RECORDS_UPDATED = 'JOG_RECORDS_UPDATED';
 export const JOG_RECORD_UPDATED = 'JOG_RECORD_UPDATED';
+export const JOG_RECORD_DELETED = 'JOG_RECORD_DELETED';
 
 export const fetchAllJogRecords = (userId, token) => {
   return dispatch => {
@@ -125,6 +143,25 @@ export const createJogRecord = ({
       dispatch({
         type: JOG_RECORD_UPDATED,
         jogRecord: json
+      });
+    });
+  };
+};
+
+export const deleteJogRecord = ({
+  id,
+  userId,
+  token
+}) => {
+  return dispatch => {
+    $delete({
+      path: `/users/${userId}/jogRecords/${id}`,
+      token
+    }).
+    done((json) => {
+      dispatch({
+        type: JOG_RECORD_DELETED,
+        id
       });
     });
   };

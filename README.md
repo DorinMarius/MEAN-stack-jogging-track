@@ -59,9 +59,7 @@ TODO
 
 - When logged in, user can see, edit and delete his times he entered        -- 3 (ACL)
   - records -- doing
-    - create
     - edit inline
-    - delete
 
 - Implement at least two roles with different permission levels             -- 3 (ACL)
   (ie: a regular user would only be able to CRUD on his owned records,
