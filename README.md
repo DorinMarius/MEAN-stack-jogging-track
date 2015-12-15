@@ -62,12 +62,16 @@ TODO
   a user manager would be able to CRUD users,
   an admin would be able to CRUD on all records and users, etc.)
 
+  - finish one api test first
+
   - get current user role after login
+
   - display users page if current user is admin or manager
     - C
     - R
     - U
     - D
+
   - display any user record page if current user is admin
 
   - admin page

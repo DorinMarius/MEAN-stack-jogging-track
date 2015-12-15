@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node .",
     "watch": "webpack -d --progress --colors --watch",
-    "pretest": "jshint ."
+    "test": "mocha server/test"
   },
   "dependencies": {
     "bcrypt": "^0.8.5",
