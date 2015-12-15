@@ -1,7 +1,7 @@
 {
   "mongoDB": {
+    "database": "jogtal",
     "name": "mongoDB",
-    "connector": "mongodb",
-    "database": "jogtal"
+    "connector": "mongodb"
   }
 }

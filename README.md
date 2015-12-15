@@ -57,12 +57,10 @@ TODO
 
 ## TODO
 
-- Implement at least two roles with different permission levels             -- 3 (ACL)
+- Implement at least two roles with different permission levels
   (ie: a regular user would only be able to CRUD on his owned records,
   a user manager would be able to CRUD users,
   an admin would be able to CRUD on all records and users, etc.)
-
-  - create test data: 3 users, 1 user managers, 1 admin
 
   - admin page
     - assign user manager

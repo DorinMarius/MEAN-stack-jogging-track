@@ -4,25 +4,52 @@ var _ = require('lodash');
 module.exports = function (app) {
   var mongoDB = app.dataSources.mongoDB;
 
-  var createGenerator = function (modelName) {
+  var automigrate = function (modelName) {
+    return new Promise(function (resolve, reject) {
+      mongoDB.automigrate(modelName, function (err) {
+        if (err) return reject(err);
+        resolve();
+      });
+    });
+  };
+
+  var modelCreate = function (modelName, data) {
     var Model = app.models[modelName];
 
+    return new Promise(function (resolve, reject) {
+      Model.create(data, function (err, result) {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
+  };
+
+  var createGenerator = function (modelName) {
     return function (data) {
       // console.log('create ' + modelName + ': ' + JSON.stringify(data, null, 2));
-      return new Promise(function (resolve, reject) {
-        mongoDB.automigrate(modelName, function (err) {
-          if (err) return reject(err);
-          Model.create(data, function (err, result) {
-            if (err) return reject(err);
-            resolve(result);
-          });
-        });
+      return automigrate(modelName).then(function () {
+        return modelCreate(modelName, data);
       });
     };
   };
 
   var createUsers = createGenerator('user');
   var createRecords = createGenerator('JogRecord');
+  var createRoles = createGenerator('Role');
+
+  var RoleMapping = app.models.RoleMapping;
+  var createRoleMapping = function (user, role) {
+    return new Promise(function (resolve, reject) {
+      role.principals.create({
+        principalType: RoleMapping.USER,
+        principalId: user.id
+      }, function (err, principal) {
+        if (err) return reject(err);
+
+        resolve(principal);
+      });
+    });
+  };
 
   var users = [
     {username: 'Ray', email: 'ray@gmail.com', password: 'qwer1234'},
@@ -44,9 +71,9 @@ module.exports = function (app) {
   };
 
   createUsers(
-    users.
+    admins.
     concat(managers).
-    concat(admins)
+    concat(users)
   ).then(function (users) {
     var records = _(users).map(function (user) {
       var days = 5 + randInt(10);
@@ -60,10 +87,28 @@ module.exports = function (app) {
       });
     }).flatten().value();
 
-    return createRecords(records);
+    return createRecords(records).return(users);
+  }).then(function (users) {
+    var admin = users[0];
+    var manager = users[1];
+
+    return createRoles([
+      {name: 'admin'},
+      {name: 'manager'}
+    ]).then(function (roles) {
+      var adminRole = roles[0];
+      var managerRole = roles[1];
+
+      return automigrate('RoleMapping').then(function () {
+        return Promise.all([
+          createRoleMapping(admin, adminRole),
+          createRoleMapping(manager, managerRole)
+        ]);
+      });
+    });
   }).
   catch(console.error).
   done(function () {
-    console.log('done prepare sample data');
+    console.log('Preparing sample data done');
   });
 };
