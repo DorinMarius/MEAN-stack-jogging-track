@@ -11,7 +11,16 @@
     "jogRecords": {
       "type": "hasMany",
       "model": "JogRecord",
-      "foreignKey": ""
+      "foreignKey": "",
+      "options": {
+        "disableInclude": true
+      }
+    },
+    "roles": {
+      "type": "hasMany",
+      "model": "Role",
+      "foreignKey": "principalId",
+      "through": "RoleMapping"
     }
   },
   "acls": [
