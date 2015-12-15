@@ -7,10 +7,12 @@ import {
   Row,
   Col,
   PageHeader,
-  Panel,
-  Input,
-  Button
+  Panel
 } from 'react-bootstrap';
+
+import {
+  JogForm
+} from './jog-records-form';
 
 import {
   fetchAllJogRecords,
@@ -56,110 +58,6 @@ const RecordListCell = ({record}) => {
   );
 };
 
-class JogForm extends Component {
-  constructor() {
-    super();
-    this.state = this.initState;
-  }
-
-  // TODO default date is today
-  initState = {
-    date: moment(Date.now()).format('YYYY-MM-DD'),
-    distance: 0,
-    time: 0
-  }
-
-  createJog = () => {
-    const distance = parseFloat(this.state.distance) * 1000;
-    const time = parseInt(this.state.time);
-
-    if (distance <= 0) {
-      alert('distance must greater then 0');
-      return;
-    }
-
-    if (time <= 0) {
-      alert('time must greater then 0');
-      return;
-    }
-
-    const {userId, token} = this.props.session;
-    const {dispatch} = this.props;
-
-    this.setState(this.initState);
-
-    dispatch(createJogRecord({
-      date: this.state.date,
-      distance,
-      time,
-      userId,
-      token
-    }));
-  }
-
-  onFieldChange = (fieldName) => {
-    return () => {
-      const field = this.refs[fieldName]
-      const value = field.getValue();
-      this.setState({[fieldName]: value});
-    }
-  }
-
-  render() {
-    const wrapperStyle = {
-      marginTop: '40px'
-    };
-
-    const btnStyle = {
-      marginTop: '25px'
-    };
-
-    return (
-      <div style={wrapperStyle}>
-        <h3>Create New Records</h3>
-        <Panel>
-          <Row>
-            <Col md={3}>
-              <Input
-                type="date"
-                label="Date"
-                value={this.state.date}
-                onChange={this.onFieldChange('date')}
-                ref="date"
-              />
-            </Col>
-            <Col md={3}>
-              <Input
-                type="number"
-                label="Distance (in KM)"
-                value={this.state.distance}
-                onChange={this.onFieldChange('distance')}
-                ref="distance"
-              />
-            </Col>
-            <Col md={3}>
-              <Input
-                type="number"
-                label="Time (in seconds)"
-                value={this.state.time}
-                onChange={this.onFieldChange('time')}
-                ref="time"
-              />
-            </Col>
-            <Col md={3}>
-              <Button
-                bsStyle="primary"
-                style={btnStyle}
-                onClick={this.createJog}
-              >Create</Button>
-            </Col>
-          </Row>
-        </Panel>
-      </div>
-    );
-  }
-}
-
 const WeeklyRecords = ({records, filterFrom, filterTo}) => {
   const filterFromM = filterFrom ? moment(filterFrom) : null;
   const filterToM = filterTo ? moment(filterTo) : null;
@@ -204,8 +102,8 @@ const JogRecords = connect(
   }
 )(({jogRecords, filterFrom, filterTo}) => {
 
-  const fromWeek = filterFrom ? moment(filterFrom).week() : null;
-  const toWeek = filterTo ? moment(filterTo).week() : null;
+  const fromWeek = filterFrom ? moment(filterFrom).format('YYYY-WW') : null;
+  const toWeek = filterTo ? moment(filterTo).format('YYYY-WW') : null;
 
   // TODO test it
   const data = _(jogRecords).
@@ -215,19 +113,18 @@ const JogRecords = connect(
         date,
         pace: (r.time / 60) / (r.distance / 1000) ,
         speed: r.distance / r.time,
-        weekIndex: date.week()
+        week: date.format('YYYY-WW')
       });
     }).
     filter(r => {
-      if (fromWeek && r.weekIndex < fromWeek) return false;
-      if (toWeek && r.weekIndex > toWeek) return false;
+      if (fromWeek && r.week < fromWeek) return false;
+      if (toWeek && r.week > toWeek) return false;
       return true;
     }).
-    groupBy('weekIndex').
+    groupBy('week').
     map(list => {
       return {
-        weekIndex: list[0].weekIndex,
-        week: list[0].date.format('YYYY-ww'),
+        week: list[0].week,
         records: list
       };
     }).
