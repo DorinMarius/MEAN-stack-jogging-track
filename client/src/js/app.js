@@ -23,11 +23,12 @@ import {createHistory} from 'history';
 import {Grid} from 'react-bootstrap';
 
 import sessionReducer from './reducers/session';
+import jogRecordsReducer from './reducers/jog-records';
 
 import Navbar from './components/Navbar';
-import Welcome from './components/Welcome';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import JogRecords from './components/JogRecords'
 
 const App = ({
   children
@@ -41,8 +42,9 @@ const App = ({
 );
 
 const reducer = combineReducers({
+  router: routerStateReducer,
   session: sessionReducer,
-  router: routerStateReducer
+  jogRecords: jogRecordsReducer
 });
 
 const store = compose(
@@ -55,7 +57,7 @@ const store = compose(
 const routes = (
   <ReduxRouter>
     <Route path="/" component={App}>
-      <IndexRoute component={Welcome} />
+      <IndexRoute component={JogRecords} />
 
       <Route path="signup" component={Signup} />
       <Route path="login" component={Login} />
@@ -69,6 +71,11 @@ const Root = () => (
     {routes}
   </Provider>
 )
+
+store.subscribe(() => {
+  const {session} = store.getState();
+  localStorage.setItem('session', JSON.stringify(session));
+});
 
 ReactDom.render(
   <Root />,

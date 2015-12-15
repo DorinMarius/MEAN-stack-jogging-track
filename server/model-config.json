@@ -14,7 +14,8 @@
     ]
   },
   "User": {
-    "dataSource": "mongoDB"
+    "dataSource": "mongoDB",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "mongoDB",
@@ -33,6 +34,10 @@
     "public": false
   },
   "JogRecord": {
+    "dataSource": "mongoDB",
+    "public": true
+  },
+  "user": {
     "dataSource": "mongoDB",
     "public": true
   }
