@@ -99,7 +99,7 @@ class EditableRecordListCell extends Component {
 
 const WeeklyRecords = ({records, filterFrom, filterTo}) => {
   const filterFromM = filterFrom ? moment(filterFrom) : null;
-  const filterToM = filterTo ? moment(filterTo) : null;
+  const filterToM = filterTo ? moment(filterTo).add(1, 'day') : null;
 
   const lastDate = records[0].date;
 
@@ -109,7 +109,7 @@ const WeeklyRecords = ({records, filterFrom, filterTo}) => {
   const filteredData = _(records).
     filter(r => {
       if (filterFromM && r.date < filterFromM) return false;
-      if (filterToM && r.date > filterToM) return false;
+      if (filterToM && r.date >= filterToM) return false;
       return true;
     }).
     sortBy('date').
@@ -142,9 +142,9 @@ const JogRecords = connect(
 )(({jogRecords, filterFrom, filterTo}) => {
 
   const fromWeek = filterFrom ?
-    moment(filterFrom).weekday(0).format('YYYY-WW') : null;
+    moment(filterFrom).weekday(0).format('YYYY-ww') : null;
   const toWeek = filterTo ?
-    moment(filterTo).weekday(0).format('YYYY-WW') : null;
+    moment(filterTo).weekday(0).format('YYYY-ww') : null;
 
   // TODO test it
   const data = _(jogRecords).
@@ -154,7 +154,7 @@ const JogRecords = connect(
         date,
         pace: (r.time / 60) / (r.distance / 1000) ,
         speed: r.distance / r.time,
-        week: moment(date).weekday(0).format('YYYY-WW')
+        week: moment(date).weekday(0).format('YYYY-ww')
       });
     }).
     filter(r => {

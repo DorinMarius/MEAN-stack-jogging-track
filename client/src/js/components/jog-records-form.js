@@ -154,7 +154,11 @@ class _EditJogForm extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {date, distance, time} = nextProps.record;
-    this.setState({date, distance, time});
+    this.setState({
+      date: date.format('YYYY-MM-DD'),
+      distance: distance / 1000,
+      time
+    });
   }
 
   onFieldChange = (fieldName) => onFieldChange(fieldName, ::this.setState)
