@@ -57,14 +57,12 @@ TODO
 
 ## TODO
 
-- When logged in, user can see, edit and delete his times he entered        -- 3 (ACL)
-  - records -- doing
-    - edit inline
-
 - Implement at least two roles with different permission levels             -- 3 (ACL)
   (ie: a regular user would only be able to CRUD on his owned records,
   a user manager would be able to CRUD users,
   an admin would be able to CRUD on all records and users, etc.)
+
+  - create test data: 3 users, 1 user managers, 1 admin
 
   - admin page
     - assign user manager
@@ -75,6 +73,10 @@ TODO
 - In any case you should be able to explain how a                           -- 2 (do while dev)
   REST API works and demonstrate that by creating
   functional tests that use the REST Layer directly.
+
+  - user jog record
+    - CRUD
+    - ACL
 
 - Bonus: unit and e2e tests!
 
