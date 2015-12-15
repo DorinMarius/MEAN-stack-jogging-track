@@ -7,10 +7,15 @@ import {
   Row,
   Col,
   PageHeader,
-  Panel
+  Panel,
+  Input,
+  Button
 } from 'react-bootstrap';
 
-import {fetchAllJogRecords} from '../actions';
+import {
+  fetchAllJogRecords,
+  createJogRecord,
+} from '../actions';
 
 const RecordListCell = ({record}) => {
   const d = record.distance;
@@ -19,9 +24,15 @@ const RecordListCell = ({record}) => {
     d + ' M';
 
   const t = record.time;
+
+  // TODO: refactor this
   const time = t >= 3600 ?
-    Math.floor(t / 3600) + 'h' + Math.floor(t % 3600 / 60) + 'm' + Math.floor(t % 60) + 's':
-    (t >= 60) ? Math.floor(t % 3600 / 60) + 'm' + Math.floor(t % 60) + 's' :
+    Math.floor(t / 3600) + 'h' +
+      Math.floor(t % 3600 / 60) + 'm' +
+        Math.floor(t % 60) + 's':
+    (t >= 60) ?
+      Math.floor(t % 3600 / 60) + 'm' +
+        Math.floor(t % 60) + 's' :
       t + 's';
 
   const speed = record.speed.toFixed(2);
@@ -44,6 +55,110 @@ const RecordListCell = ({record}) => {
     </Panel>
   );
 };
+
+class JogForm extends Component {
+  constructor() {
+    super();
+    this.state = this.initState;
+  }
+
+  // TODO default date is today
+  initState = {
+    date: moment(Date.now()).format('YYYY-MM-DD'),
+    distance: 0,
+    time: 0
+  }
+
+  createJog = () => {
+    const distance = parseFloat(this.state.distance) * 1000;
+    const time = parseInt(this.state.time);
+
+    if (distance <= 0) {
+      alert('distance must greater then 0');
+      return;
+    }
+
+    if (time <= 0) {
+      alert('time must greater then 0');
+      return;
+    }
+
+    const {userId, token} = this.props.session;
+    const {dispatch} = this.props;
+
+    this.setState(this.initState);
+
+    dispatch(createJogRecord({
+      date: this.state.date,
+      distance,
+      time,
+      userId,
+      token
+    }));
+  }
+
+  onFieldChange = (fieldName) => {
+    return () => {
+      const field = this.refs[fieldName]
+      const value = field.getValue();
+      this.setState({[fieldName]: value});
+    }
+  }
+
+  render() {
+    const wrapperStyle = {
+      marginTop: '40px'
+    };
+
+    const btnStyle = {
+      marginTop: '25px'
+    };
+
+    return (
+      <div style={wrapperStyle}>
+        <h3>Create New Records</h3>
+        <Panel>
+          <Row>
+            <Col md={3}>
+              <Input
+                type="date"
+                label="Date"
+                value={this.state.date}
+                onChange={this.onFieldChange('date')}
+                ref="date"
+              />
+            </Col>
+            <Col md={3}>
+              <Input
+                type="number"
+                label="Distance (in KM)"
+                value={this.state.distance}
+                onChange={this.onFieldChange('distance')}
+                ref="distance"
+              />
+            </Col>
+            <Col md={3}>
+              <Input
+                type="number"
+                label="Time (in seconds)"
+                value={this.state.time}
+                onChange={this.onFieldChange('time')}
+                ref="time"
+              />
+            </Col>
+            <Col md={3}>
+              <Button
+                bsStyle="primary"
+                style={btnStyle}
+                onClick={this.createJog}
+              >Create</Button>
+            </Col>
+          </Row>
+        </Panel>
+      </div>
+    );
+  }
+}
 
 const WeeklyRecords = ({records, filterFrom, filterTo}) => {
   const filterFromM = filterFrom ? moment(filterFrom) : null;
@@ -188,6 +303,10 @@ class JogRecordsListPage extends Component {
         <PageHeader>
           Your Jogging Records
         </PageHeader>
+        <JogForm
+          session={this.props.session}
+          dispatch={this.props.dispatch}
+         />
         <JogRecords
           filterFrom={this.state.filterFrom}
           filterTo={this.state.filterTo}

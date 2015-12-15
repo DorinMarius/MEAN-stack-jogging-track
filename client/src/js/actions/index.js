@@ -107,3 +107,25 @@ export const fetchAllJogRecords = (userId, token) => {
     });
   };
 };
+
+export const createJogRecord = ({
+  date,
+  distance,
+  time,
+  userId,
+  token
+}) => {
+  return dispatch => {
+    $post({
+      path: `/users/${userId}/jogRecords`,
+      data: {date, distance, time},
+      token
+    }).
+    done((json) => {
+      dispatch({
+        type: JOG_RECORD_UPDATED,
+        jogRecord: json
+      });
+    });
+  };
+};
