@@ -10,7 +10,7 @@ import {
   Panel
 } from 'react-bootstrap';
 
-import {fetchAllJobRecords} from '../actions';
+import {fetchAllJogRecords} from '../actions';
 
 const RecordListCell = ({record}) => {
   const d = record.distance;
@@ -142,7 +142,7 @@ class JogRecordsListPage extends Component {
   componentDidMount() {
     const {userId, token} = this.props.session;
     const {dispatch} = this.props;
-    dispatch(fetchAllJobRecords(userId, token));
+    dispatch(fetchAllJogRecords(userId, token));
   }
 
   state = {}

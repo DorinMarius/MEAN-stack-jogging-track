@@ -93,7 +93,7 @@ export const signup = (email, password) => {
 export const JOG_RECORDS_UPDATED = 'JOG_RECORDS_UPDATED';
 export const JOG_RECORD_UPDATED = 'JOG_RECORD_UPDATED';
 
-export const fetchAllJobRecords = (userId, token) => {
+export const fetchAllJogRecords = (userId, token) => {
   return dispatch => {
     $get({
       path: `/users/${userId}/jogRecords`,
