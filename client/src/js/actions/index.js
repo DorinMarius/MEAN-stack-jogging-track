@@ -148,6 +148,29 @@ export const createJogRecord = ({
   };
 };
 
+export const updateJogRecord = ({
+  id,
+  date,
+  distance,
+  time,
+  userId,
+  token
+}) => {
+  return dispatch => {
+    $put({
+      path: `/users/${userId}/jogRecords/${id}`,
+      data: {date, distance, time},
+      token
+    }).
+    done((json) => {
+      dispatch({
+        type: JOG_RECORD_UPDATED,
+        jogRecord: json
+      });
+    });
+  };
+};
+
 export const deleteJogRecord = ({
   id,
   userId,

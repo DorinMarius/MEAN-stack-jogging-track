@@ -70,6 +70,10 @@ class EditableRecordListCell extends Component {
     editing: false
   }
 
+  cancelEdit = () => {
+    this.setState({editing: false});
+  }
+
   onEditBtnClick = () => {
     this.setState({editing: true});
   }
@@ -79,6 +83,7 @@ class EditableRecordListCell extends Component {
       return (
         <EditJogForm
           record={this.props.record}
+          cancelEdit={this.cancelEdit}
         />
       );
     } else {

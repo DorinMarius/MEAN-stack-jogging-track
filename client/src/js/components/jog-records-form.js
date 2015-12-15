@@ -12,6 +12,7 @@ import {
 
 import {
   createJogRecord,
+  updateJogRecord,
   deleteJogRecord
 } from '../actions';
 
@@ -145,8 +146,9 @@ class _EditJogForm extends Component {
 
     const {date, distance, time} = props.record;
     this.state = {
-      date:date.format('YYYY-MM-DD'),
-      distance, time
+      date: date.format('YYYY-MM-DD'),
+      distance: distance / 1000,
+      time
     };
   }
 
@@ -166,13 +168,16 @@ class _EditJogForm extends Component {
     const {userId, token} = this.props.session;
     const {dispatch} = this.props;
 
-    // dispatch(updateJogRecord({
-    //   date: this.state.date,
-    //   distance,
-    //   time,
-    //   userId,
-    //   token
-    // }));
+    this.props.cancelEdit();
+
+    dispatch(updateJogRecord({
+      id: this.props.record.id,
+      date: this.state.date,
+      distance,
+      time,
+      userId,
+      token
+    }));
   }
 
   deleteJog = () => {
@@ -214,7 +219,7 @@ class _EditJogForm extends Component {
             &nbsp;
             <Button
               style={btnStyle}
-              onClick={this.cancelEdit}
+              onClick={this.props.cancelEdit}
             >
               Cancel
             </Button>
