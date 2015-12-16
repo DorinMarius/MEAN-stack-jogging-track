@@ -97,7 +97,7 @@ const WeeklyRecords = ({records, filterFrom, filterTo}) => {
 
   const avePace = (_(records).pluck('pace').sum() / records.length).toFixed(2);
   const aveSpeed = (_(records).pluck('speed').sum() / records.length).toFixed(2);
-  const totalDistance = _(records).pluck('distance').sum() / records.length / 1000;
+  const totalDistance = _(records).pluck('distance').sum() / 1000;
   const aveDistance = totalDistance / records.length;
 
   const style = {
