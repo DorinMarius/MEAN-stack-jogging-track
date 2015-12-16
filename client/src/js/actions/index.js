@@ -116,11 +116,11 @@ export const logout = () => {
   };
 };
 
-export const signup = (email, password) => {
+export const signup = (username, email, password) => {
   return dispatch => {
     $post({
       path: '/users',
-      data: {email, password}
+      data: {username, email, password}
     }).
     done((json) => {
       login(email, password)(dispatch);
