@@ -14,6 +14,7 @@ import {signup} from '../actions';
 
 class Signup extends Component {
   signup = () => {
+    const username = this.refs.username.value;
     const email = this.refs.email.value;
     const password = this.refs.password.value;
     const passwordConfirm = this.refs.passwordConfirm.value;
@@ -24,7 +25,7 @@ class Signup extends Component {
     }
 
     const {dispatch} = this.props;
-    dispatch(signup(email, password));
+    dispatch(signup(username, email, password));
   }
 
   render() {
@@ -34,6 +35,13 @@ class Signup extends Component {
         <input
           className="form-control"
           style={topInputStyle}
+          type="username"
+          placeholder="Username"
+          ref="username"
+        />
+        <input
+          className="form-control"
+          style={middleInputStyle}
           type="email"
           placeholder="Email"
           ref="email"
@@ -63,4 +71,4 @@ class Signup extends Component {
   }
 };
 
-export default connect()(Signup)
+export default connect()(Signup);
