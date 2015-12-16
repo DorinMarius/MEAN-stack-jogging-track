@@ -263,9 +263,13 @@ export const updateUser = ({
   token
 }) => {
   return dispatch => {
+    const data = (password && password.length > 0) ?
+      {username, email, password} :
+      {username, email};
+
     $put({
       path: `/users/${id}`,
-      data: {username, email, password},
+      data,
       token
     }).
     done((json) => {

@@ -13,7 +13,7 @@ import {
 export default (state = [], action) => {
   switch (action.type) {
     case USERS_UPDATED:
-      return updateList(state, action.users);
+      return updateList(state, action.users.reverse());
 
     case USER_UPDATED: {
       const user = Object.assign({roles: []}, action.user);

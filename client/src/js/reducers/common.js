@@ -7,7 +7,7 @@ export const updateList = (curr, next) => {
 export const updateOneById = (curr, newItem) => {
   const index = _(curr).pluck('id').indexOf(newItem.id);
   if (index < 0) {
-    return curr.concat([newItem]);
+    return [newItem].concat(curr);
   } else {
     return curr.slice(0, index).
       concat([newItem]).

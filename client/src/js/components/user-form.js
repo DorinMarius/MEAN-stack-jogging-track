@@ -128,7 +128,7 @@ class _EditUserForm extends Component {
   constructor(props) {
     super(props);
 
-    const {username, email} = props.user;
+    const {username, email} = props.data;
     this.state = {
       username, email,
       password: null
@@ -136,7 +136,7 @@ class _EditUserForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {username, email} = nextProps.user;
+    const {username, email} = nextProps.data;
     this.setState({
       username, email
     });
@@ -150,7 +150,7 @@ class _EditUserForm extends Component {
 
     const {username, email, password} = this.state;
     dispatch(updateUser({
-      id: this.props.user.id,
+      id: this.props.data.id,
       username,
       email,
       password,
@@ -163,7 +163,7 @@ class _EditUserForm extends Component {
 
   deleteUser = () => {
     const {userId, token} = this.props.session;
-    const {id} = this.props.record;
+    const {id} = this.props.data;
     const {dispatch} = this.props;
 
     if (!confirm('Are you sure to delete this user?')) return;
@@ -182,8 +182,8 @@ class _EditUserForm extends Component {
       <Panel>
         <Row>
           <UserFields
-            usenae={this.state.usenae}
-            emal={this.state.emal}
+            username={this.state.username}
+            email={this.state.email}
             onUsernameChange={this.onFieldChange('username')}
             onEmailChange={this.onFieldChange('email')}
             onPasswordChange={this.onFieldChange('password')}

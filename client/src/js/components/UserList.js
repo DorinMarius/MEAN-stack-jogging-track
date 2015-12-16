@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Editable} from './common';
 
 import {
  fetchAllUsers
@@ -18,7 +19,9 @@ import {
   EditUserForm
 } from './user-form';
 
-const UserCell = ({user, onEditBtnClick}) => {
+const UserCell = ({data, onEditBtnClick}) => {
+  const user = data;
+
   return (
     <Panel>
       <Row>
@@ -41,11 +44,13 @@ const UserCell = ({user, onEditBtnClick}) => {
   );
 };
 
-class EditableUserCell extends Component {
-  state = {
-
-  }
-}
+const EditableUserCell = ({user}) => (
+  <Editable
+    data={user}
+    normal={UserCell}
+    editing={EditUserForm}
+  />
+);
 
 const UserList = connect(
   (state) => {
@@ -55,7 +60,7 @@ const UserList = connect(
 
   const list = _(users).
   map((user) => (
-    <UserCell
+    <EditableUserCell
       key={user.id}
       user={user}
     />
