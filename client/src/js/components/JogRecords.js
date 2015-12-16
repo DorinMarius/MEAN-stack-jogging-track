@@ -199,7 +199,7 @@ const JogRecordsPageHeader = connect(
       </PageHeader>
       <div style={newFormWrapperStyle}>
         <h3>Create New Record</h3>
-        <NewJogForm userId={userId} />
+        <NewJogForm userId={user.id} />
       </div>
     </div>
   );
