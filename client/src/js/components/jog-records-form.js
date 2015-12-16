@@ -147,7 +147,7 @@ class _EditJogForm extends Component {
   constructor(props) {
     super(props);
 
-    const {date, distance, time} = props.record;
+    const {date, distance, time} = props.data;
     this.state = {
       date: date.format('YYYY-MM-DD'),
       distance: distance / 1000,
@@ -156,7 +156,7 @@ class _EditJogForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {date, distance, time} = nextProps.record;
+    const {date, distance, time} = nextProps.data;
     this.setState({
       date: date.format('YYYY-MM-DD'),
       distance: distance / 1000,
@@ -176,7 +176,7 @@ class _EditJogForm extends Component {
     const {dispatch} = this.props;
 
     dispatch(updateJogRecord({
-      id: this.props.record.id,
+      id: this.props.data.id,
       date: this.state.date,
       distance,
       time,
@@ -189,7 +189,7 @@ class _EditJogForm extends Component {
 
   deleteJog = () => {
     const {userId, token} = this.props.session;
-    const {id} = this.props.record;
+    const {id} = this.props.data;
     const {dispatch} = this.props;
 
     if (!confirm('Are you sure to delete this record?')) return;

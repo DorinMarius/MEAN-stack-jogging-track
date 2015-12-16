@@ -64,8 +64,8 @@ TODO
 
   - display users page if current user is admin or manager
     - navbar -- done
-    - R: user list
-    - C
+    - R: user list -- done
+    - C -- done
     - U
     - D
 
@@ -74,8 +74,6 @@ TODO
   - admin page
     - assign user manager
     - all jog function for every user
-  - user manager page
-    - user management
 
 - In any case you should be able to explain how a                           -- 2 (do while dev)
   REST API works and demonstrate that by creating

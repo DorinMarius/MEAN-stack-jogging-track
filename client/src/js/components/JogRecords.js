@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
+import {Editable} from './common';
 
 import {
   Row,
@@ -20,7 +21,8 @@ import {
   fetchAllJogRecords
 } from '../actions';
 
-const RecordListCell = ({record, onEditBtnClick}) => {
+const RecordListCell = ({data, onEditBtnClick}) => {
+  const record = data;
   const d = record.distance;
   const distance = d >= 1000 ?
     (d / 1000).toFixed(2) + ' KM':
@@ -65,37 +67,13 @@ const RecordListCell = ({record, onEditBtnClick}) => {
   );
 };
 
-class EditableRecordListCell extends Component {
-  state = {
-    editing: false
-  }
-
-  cancelEdit = () => {
-    this.setState({editing: false});
-  }
-
-  onEditBtnClick = () => {
-    this.setState({editing: true});
-  }
-
-  render() {
-    if (this.state.editing) {
-      return (
-        <EditJogForm
-          record={this.props.record}
-          cancelEdit={this.cancelEdit}
-        />
-      );
-    } else {
-      return (
-        <RecordListCell
-          record={this.props.record}
-          onEditBtnClick={this.onEditBtnClick}
-        />
-      );
-    }
-  }
-}
+const EditableRecordListCell = ({record}) => (
+  <Editable
+    data={record}
+    normal={RecordListCell}
+    editing={EditJogForm}
+  />
+);
 
 const WeeklyRecords = ({records, filterFrom, filterTo}) => {
   const filterFromM = filterFrom ? moment(filterFrom) : null;

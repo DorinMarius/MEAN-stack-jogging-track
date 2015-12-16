@@ -41,6 +41,12 @@ const UserCell = ({user, onEditBtnClick}) => {
   );
 };
 
+class EditableUserCell extends Component {
+  state = {
+
+  }
+}
+
 const UserList = connect(
   (state) => {
     return {users: state.users};

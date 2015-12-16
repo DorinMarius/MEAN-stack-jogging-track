@@ -221,7 +221,6 @@ const includeRoles = encodeURIComponent(JSON.stringify({
 
 export const fetchAllUsers = (token) => {
   return dispatch => {
-    // TODO reduce duplicate code
     $get({
       path: `/users?filter=${includeRoles}`,
       token
