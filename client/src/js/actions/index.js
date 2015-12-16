@@ -78,11 +78,31 @@ export const login = (email, password) => {
       path: '/users/login',
       data: {email, password}
     }).
-    done((json) => {
+    then((json) => {
+      const token = json.id;
+      const userId = json.userId;
+
+      const filter = encodeURIComponent(JSON.stringify({
+        include: 'roles'
+      }));
+
+      return $get({
+        path: `/users/${userId}?filter=${filter}`,
+        token
+      }).then((json) => {
+        return {
+          token,
+          userId,
+          roles: json.roles.map(r => r.name)
+        };
+      });
+    }).
+    done(({token, userId, roles}) => {
       dispatch({
         type: USER_LOGGED_IN,
-        token: json.id,
-        userId: json.userId
+        token,
+        userId,
+        roles
       });
     });
   };
@@ -184,6 +204,88 @@ export const deleteJogRecord = ({
     done((json) => {
       dispatch({
         type: JOG_RECORD_DELETED,
+        id
+      });
+    });
+  };
+};
+
+// ----- users -----
+export const USERS_UPDATED = 'USERS_UPDATED';
+export const USER_UPDATED = 'USER_UPDATED';
+export const USER_DELETED = 'USER_DELETED';
+
+export const fetchAllUsers = (token) => {
+  return dispatch => {
+    $get({
+      path: `/users`,
+      token
+    }).
+    done((json) => {
+      console.log(json);
+      dispatch({
+        type: USERS_UPDATED,
+        users: json
+      });
+    });
+  };
+};
+
+export const createUser = ({
+  username,
+  email,
+  password,
+  token
+}) => {
+  return dispatch => {
+    $post({
+      path: `/users`,
+      data: {username, email, password},
+      token
+    }).
+    done((json) => {
+      dispatch({
+        type: USER_UPDATED,
+        user: json
+      });
+    });
+  };
+};
+
+export const updateUser = ({
+  id,
+  username,
+  email,
+  password,
+  token
+}) => {
+  return dispatch => {
+    $put({
+      path: `/users/${id}`,
+      data: {username, email, password},
+      token
+    }).
+    done((json) => {
+      dispatch({
+        type: USER_UPDATED,
+        user: json
+      });
+    });
+  };
+};
+
+export const deleteUser = ({
+  id,
+  token
+}) => {
+  return dispatch => {
+    $delete({
+      path: `/users/${id}`,
+      token
+    }).
+    done((json) => {
+      dispatch({
+        type: USER_DELETED,
         id
       });
     });

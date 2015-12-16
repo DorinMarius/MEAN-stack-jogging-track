@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
@@ -52,7 +53,15 @@ class MyNavbar extends Component {
       </Nav>
     );
 
-    const {Header, Brand, Toggle, Collapse} = Navbar
+    const {Header, Brand, Toggle, Collapse} = Navbar;
+
+    const managerNav = this.props.canManageUsers ? (
+      <Nav>
+        <NavItem onClick={this.goto('/users')}>Users</NavItem>
+      </Nav>
+    ) : (
+      <Nav></Nav>
+    );
 
     return (
       <Navbar>
@@ -63,6 +72,7 @@ class MyNavbar extends Component {
           <Toggle />
         </Header>
         <Collapse>
+          {managerNav}
           {sessionNav}
         </Collapse>
       </Navbar>
@@ -71,13 +81,16 @@ class MyNavbar extends Component {
 };
 
 const stateToProps = (state) => {
-  const isLoggedIn = state.session.userId !== undefined
+  const roles = state.session.roles;
+  const isLoggedIn = state.session.userId !== undefined;
+  const canManageUsers = _.include(roles, 'admin') || _.include(roles, 'manager');
   const currentPath = state.router.location.pathname;
   const isInSessionPath = currentPath === '/login' || currentPath === '/signup';
 
   return {
     isLoggedIn,
-    isInSessionPath
+    isInSessionPath,
+    canManageUsers
   };
 };
 

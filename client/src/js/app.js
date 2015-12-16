@@ -8,7 +8,7 @@ import {
   applyMiddleware
 } from 'redux';
 
-import thunkMiddleware from 'redux-thunk'
+import thunkMiddleware from 'redux-thunk';
 
 import {Provider} from 'react-redux';
 
@@ -24,11 +24,13 @@ import {Grid} from 'react-bootstrap';
 
 import sessionReducer from './reducers/session';
 import jogRecordsReducer from './reducers/jog-records';
+import usersReducer from './reducers/users';
 
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import JogRecords from './components/JogRecords'
+import JogRecords from './components/JogRecords';
+import UserList from './components/UserList';
 
 const App = ({
   children
@@ -44,7 +46,8 @@ const App = ({
 const reducer = combineReducers({
   router: routerStateReducer,
   session: sessionReducer,
-  jogRecords: jogRecordsReducer
+  jogRecords: jogRecordsReducer,
+  users: usersReducer
 });
 
 const store = compose(
@@ -59,6 +62,8 @@ const routes = (
     <Route path="/" component={App}>
       <IndexRoute component={JogRecords} />
 
+      <Route path="users" component={UserList} />
+
       <Route path="signup" component={Signup} />
       <Route path="login" component={Login} />
 
@@ -70,7 +75,7 @@ const Root = () => (
   <Provider store={store}>
     {routes}
   </Provider>
-)
+);
 
 store.subscribe(() => {
   const {session} = store.getState();

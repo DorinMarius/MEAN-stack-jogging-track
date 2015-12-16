@@ -10,7 +10,8 @@ export default (state = initState, action) => {
     case USER_LOGGED_IN:
       return Object.assign({}, state, {
         userId: action.userId,
-        token: action.token
+        token: action.token,
+        roles: action.roles
       });
     case USER_LOGGED_OUT:
       return {};
