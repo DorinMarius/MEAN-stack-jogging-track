@@ -97,7 +97,8 @@ const WeeklyRecords = ({records, filterFrom, filterTo}) => {
 
   const avePace = (_(records).pluck('pace').sum() / records.length).toFixed(2);
   const aveSpeed = (_(records).pluck('speed').sum() / records.length).toFixed(2);
-  const aveDistance = (_(records).pluck('distance').sum() / records.length / 1000).toFixed(2);
+  const totalDistance = _(records).pluck('distance').sum() / records.length / 1000;
+  const aveDistance = totalDistance / records.length;
 
   const style = {
     marginTop: '40px'
@@ -108,7 +109,8 @@ const WeeklyRecords = ({records, filterFrom, filterTo}) => {
       <div className="pull-right">
         <span>Average Pace: {avePace} mins/KM</span>,&nbsp;
         <span>Average Speed: {aveSpeed} M/s</span>,&nbsp;
-        <span>Average Distance: {aveDistance} KM</span>,&nbsp;
+        <span>Total Distance: {totalDistance.toFixed(2)} KM</span>,&nbsp;
+        <span>Average Distance: {aveDistance.toFixed(2)} KM</span>,&nbsp;
       </div>
       <h3>{from}~{to}</h3>
       {filteredData.map(r => <EditableRecordListCell key={r.id} record={r} />)}
