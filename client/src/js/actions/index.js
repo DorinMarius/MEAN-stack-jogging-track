@@ -16,6 +16,8 @@ export const handleError = (err) => {
   }
 
   alert(msg);
+
+  return Promise.reject(err);
 };
 
 const $request = ({method, path, data, token}) => {
