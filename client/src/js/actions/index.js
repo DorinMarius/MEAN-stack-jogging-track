@@ -215,15 +215,15 @@ export const USERS_UPDATED = 'USERS_UPDATED';
 export const USER_UPDATED = 'USER_UPDATED';
 export const USER_DELETED = 'USER_DELETED';
 
+const includeRoles = encodeURIComponent(JSON.stringify({
+  include: 'roles'
+}));
+
 export const fetchAllUsers = (token) => {
   return dispatch => {
     // TODO reduce duplicate code
-    const filter = encodeURIComponent(JSON.stringify({
-      include: 'roles'
-    }));
-
     $get({
-      path: `/users?filter=${filter}`,
+      path: `/users?filter=${includeRoles}`,
       token
     }).
     done((json) => {

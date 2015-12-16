@@ -246,11 +246,8 @@ class JogRecordsListPage extends Component {
           Your Jogging Records
         </PageHeader>
         <div style={newFormWrapperStyle}>
-          <h3>Create New Records</h3>
-          <NewJogForm
-            session={this.props.session}
-            dispatch={this.props.dispatch}
-           />
+          <h3>Create New Record</h3>
+          <NewJogForm />
         </div>
         <JogRecords
           filterFrom={this.state.filterFrom}

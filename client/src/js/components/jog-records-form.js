@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import {exposeSession} from './common';
 
 import {
   Row,
@@ -49,15 +50,15 @@ const JogFields = ({
         />
       </Col>
     </div>
-  )
+  );
 };
 
 const onFieldChange = (fieldName, setState) => {
   return (e) => {
     const value = e.target.value;
     setState({[fieldName]: value});
-  }
-}
+  };
+};
 
 const checkDistanceAndTime = (distance, time) => {
   if (distance <= 0) {
@@ -73,7 +74,7 @@ const checkDistanceAndTime = (distance, time) => {
   return true;
 };
 
-export class NewJogForm extends Component {
+class _NewJogForm extends Component {
 
   constructor(props) {
     super(props);
@@ -98,8 +99,6 @@ export class NewJogForm extends Component {
     const {userId, token} = this.props.session;
     const {dispatch} = this.props;
 
-    this.setState(this.initState);
-
     dispatch(createJogRecord({
       date: this.state.date,
       distance,
@@ -107,6 +106,8 @@ export class NewJogForm extends Component {
       userId,
       token
     }));
+
+    this.setState(Object.assign({}, this.initState));
   }
 
   render() {
@@ -138,6 +139,8 @@ export class NewJogForm extends Component {
     );
   }
 }
+
+export const NewJogForm = connect(exposeSession)(_NewJogForm);
 
 class _EditJogForm extends Component {
 
@@ -172,8 +175,6 @@ class _EditJogForm extends Component {
     const {userId, token} = this.props.session;
     const {dispatch} = this.props;
 
-    this.props.cancelEdit();
-
     dispatch(updateJogRecord({
       id: this.props.record.id,
       date: this.state.date,
@@ -182,6 +183,8 @@ class _EditJogForm extends Component {
       userId,
       token
     }));
+
+    this.props.cancelEdit();
   }
 
   deleteJog = () => {
@@ -193,7 +196,7 @@ class _EditJogForm extends Component {
 
     dispatch(deleteJogRecord({
       id, userId, token
-    }))
+    }));
   }
 
   render() {
@@ -242,10 +245,4 @@ class _EditJogForm extends Component {
   }
 }
 
-const stateToProps = (state) => {
-  return {
-    session: state.session
-  };
-};
-
-export const EditJogForm = connect(stateToProps)(_EditJogForm);
+export const EditJogForm = connect(exposeSession)(_EditJogForm);

@@ -13,6 +13,11 @@ import {
   Button
 } from 'react-bootstrap';
 
+import {
+  NewUserForm,
+  EditUserForm
+} from './user-form';
+
 const UserCell = ({user, onEditBtnClick}) => {
   return (
     <Panel>
@@ -42,12 +47,13 @@ const UserList = connect(
   }
 )(({users}) => {
 
-  const list = users.map((user) => (
+  const list = _(users).
+  map((user) => (
     <UserCell
       key={user.id}
       user={user}
     />
-  ));
+  )).value();
 
   return (
     <div>
@@ -66,11 +72,20 @@ export default class UserListPage extends Component {
 
   render() {
 
+    // TODO: remove duplicate code
+    const newFormWrapperStyle = {
+      marginTop: '40px'
+    };
+
     return (
       <div>
         <PageHeader>
           User List
         </PageHeader>
+        <div style={newFormWrapperStyle}>
+          <h3>Create New User</h3>
+          <NewUserForm />
+        </div>
         <UserList />
       </div>
     );

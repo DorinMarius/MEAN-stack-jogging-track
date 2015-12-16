@@ -15,8 +15,10 @@ export default (state = [], action) => {
     case USERS_UPDATED:
       return updateList(state, action.users);
 
-    case USER_UPDATED:
-      return updateOneById(state, action.user);
+    case USER_UPDATED: {
+      const user = Object.assign({roles: []}, action.user);
+      return updateOneById(state, user);
+    }
 
     case USER_DELETED:
       return deleteById(state, action.id);
