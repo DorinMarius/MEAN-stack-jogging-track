@@ -45,39 +45,27 @@
 
 ## Dev
 
-TODO
+`npm run watch`
 
 ## Before Deploy
 
-TODO
+please remove the `create-sample-models.js` under `server/boot/` folder
 
 ## Run
 
-TODO
+`node .`
+
+## Run Test
+
+`npm test`
 
 ## TODO
-
-- Implement at least two roles with different permission levels
-  (ie: a regular user would only be able to CRUD on his owned records,
-  a user manager would be able to CRUD users,
-  an admin would be able to CRUD on all records and users, etc.)
-
-  - admin page
-    - assign user manager
-
-- In any case you should be able to explain how a                           -- 2 (do while dev)
-  REST API works and demonstrate that by creating
-  functional tests that use the REST Layer directly.
-
-  - user jog record
-    - CRUD
-    - ACL
 
 - Bonus: unit and e2e tests!
 
 ## TODO: Bonus
 
-- unit tests (do while dev)
+- unit tests
 - e2e tests 5
 - Dockerize it
 - mobile: React Native - same time as web
