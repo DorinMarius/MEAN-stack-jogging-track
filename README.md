@@ -1,6 +1,6 @@
 # Toptal Technical Interview 2
 
-## Write an application that tracks jogging times of users
+## Spec: Write an application that tracks jogging times of users
 
 - User must be able to create an account and log in
   (If a mobile application, this means that more users can use the app from the same phone)
@@ -36,3 +36,53 @@
 - Bonus: unit and e2e tests!
 
 - You will not be marked on graphic design, however, do try to keep it as tidy as possible.
+
+## Before Dev/Run
+
+- install loopback globally
+- install webpack globally
+- `npm install`
+
+## Dev
+
+TODO
+
+## Before Deploy
+
+TODO
+
+## Run
+
+TODO
+
+## TODO
+
+- Implement at least two roles with different permission levels
+  (ie: a regular user would only be able to CRUD on his owned records,
+  a user manager would be able to CRUD users,
+  an admin would be able to CRUD on all records and users, etc.)
+
+  - admin page
+    - assign user manager
+
+- In any case you should be able to explain how a                           -- 2 (do while dev)
+  REST API works and demonstrate that by creating
+  functional tests that use the REST Layer directly.
+
+  - user jog record
+    - CRUD
+    - ACL
+
+- Bonus: unit and e2e tests!
+
+## TODO: Bonus
+
+- unit tests (do while dev)
+- e2e tests 5
+- Dockerize it
+- mobile: React Native - same time as web
+
+- web minor
+  - session form enter to login/signup
+  - improve error handle
+    - email duplicate error
