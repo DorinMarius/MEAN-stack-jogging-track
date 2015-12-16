@@ -96,8 +96,8 @@ class _NewJogForm extends Component {
 
     if (!checkDistanceAndTime(distance, time)) return;
 
-    const {userId, token} = this.props.session;
-    const {dispatch} = this.props;
+    const {token} = this.props.session;
+    const {dispatch, userId} = this.props;
 
     dispatch(createJogRecord({
       date: this.state.date,
@@ -172,7 +172,8 @@ class _EditJogForm extends Component {
 
     if (!checkDistanceAndTime(distance, time)) return;
 
-    const {userId, token} = this.props.session;
+    const {token} = this.props.session;
+    const {userId} = this.props.data;
     const {dispatch} = this.props;
 
     dispatch(updateJogRecord({
@@ -188,8 +189,8 @@ class _EditJogForm extends Component {
   }
 
   deleteJog = () => {
-    const {userId, token} = this.props.session;
-    const {id} = this.props.data;
+    const {token} = this.props.session;
+    const {id, userId} = this.props.data;
     const {dispatch} = this.props;
 
     if (!confirm('Are you sure to delete this record?')) return;

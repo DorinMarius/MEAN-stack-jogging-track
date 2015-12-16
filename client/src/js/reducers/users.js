@@ -2,6 +2,7 @@ import {
   USERS_UPDATED,
   USER_UPDATED,
   USER_DELETED,
+  USER_LOGGED_OUT
 } from '../actions';
 
 import {
@@ -22,6 +23,9 @@ export default (state = [], action) => {
 
     case USER_DELETED:
       return deleteById(state, action.id);
+
+    case USER_LOGGED_OUT:
+      return [];
 
     default:
       return state;

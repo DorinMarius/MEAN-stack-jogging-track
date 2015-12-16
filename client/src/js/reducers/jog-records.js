@@ -2,6 +2,7 @@ import {
   JOG_RECORDS_UPDATED,
   JOG_RECORD_UPDATED,
   JOG_RECORD_DELETED,
+  USER_LOGGED_OUT
 } from '../actions';
 
 import {
@@ -20,6 +21,9 @@ export default (state = [], action) => {
 
     case JOG_RECORD_DELETED:
       return deleteById(state, action.id);
+
+    case USER_LOGGED_OUT:
+      return [];
 
     default:
       return state;

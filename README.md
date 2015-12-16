@@ -65,8 +65,8 @@ TODO
   - display any user record page if current user is admin
 
   - admin page
-    - assign user manager
     - all jog function for every user
+    - assign user manager
 
 - In any case you should be able to explain how a                           -- 2 (do while dev)
   REST API works and demonstrate that by creating

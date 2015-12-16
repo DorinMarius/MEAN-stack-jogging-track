@@ -13,8 +13,10 @@ export default (state = initState, action) => {
         token: action.token,
         roles: action.roles
       });
+
     case USER_LOGGED_OUT:
       return {};
+
     default:
       return state;
   }

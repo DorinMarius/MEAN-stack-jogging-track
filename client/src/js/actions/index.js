@@ -234,6 +234,21 @@ export const fetchAllUsers = (token) => {
   };
 };
 
+export const fetchUser = (id, token) => {
+  return dispatch => {
+    $get({
+      path: `/users/${id}?filter=${includeRoles}`,
+      token
+    }).
+    done((json) => {
+      dispatch({
+        type: USER_UPDATED,
+        user: json
+      });
+    });
+  };
+};
+
 export const createUser = ({
   username,
   email,

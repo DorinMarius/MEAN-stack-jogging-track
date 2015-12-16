@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import _ from 'lodash';
-import {Editable} from './common';
+import {Editable, exposeSession} from './common';
 
 import {
   Row,
@@ -18,7 +18,8 @@ import {
 } from './jog-records-form';
 
 import {
-  fetchAllJogRecords
+  fetchAllJogRecords,
+  fetchUser
 } from '../actions';
 
 const RecordListCell = ({data, onEditBtnClick}) => {
@@ -114,11 +115,8 @@ const WeeklyRecords = ({records, filterFrom, filterTo}) => {
 };
 
 const JogRecords = connect(
-  (state) => {
-    return {jogRecords: state.jogRecords};
-  }
+  (state) => ({jogRecords: state.jogRecords})
 )(({jogRecords, filterFrom, filterTo}) => {
-
   const fromWeek = filterFrom ?
     moment(filterFrom).weekday(0).format('YYYY-ww') : null;
   const toWeek = filterTo ?
@@ -168,12 +166,65 @@ const JogRecords = connect(
   );
 });
 
+const JogRecordsPageHeader = connect(
+  (state) => ({
+    session: state.session,
+    users: state.users
+  })
+)(({users, session, userId}) => {
+
+  const currentUserId = session.userId;
+  const _userId = userId || currentUserId;
+
+  const isCurrentUser = _userId === currentUserId;
+  const user = users.filter((user) => user.id === _userId)[0];
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  const newFormWrapperStyle = {
+    marginTop: '40px'
+  };
+
+  return (
+    <div>
+      <PageHeader>
+        {
+          (isCurrentUser) ? 'Your' : user.username + "'s"
+        }
+        &nbsp;Jogging Records
+      </PageHeader>
+      <div style={newFormWrapperStyle}>
+        <h3>Create New Record</h3>
+        <NewJogForm userId={userId} />
+      </div>
+    </div>
+  );
+});
+
 class JogRecordsListPage extends Component {
 
   componentDidMount() {
-    const {userId, token} = this.props.session;
+    const {token} = this.props.session;
+    const currentUserId = this.props.session.userId;
+    const userId = this.props.params.userId || currentUserId;
     const {dispatch} = this.props;
-    dispatch(fetchAllJogRecords(userId, token));
+    if (token) {
+      dispatch(fetchUser(userId, token));
+      dispatch(fetchAllJogRecords(userId, token));
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {token} = nextProps.session;
+    const currentUserId = nextProps.session.userId;
+    const userId = nextProps.params.userId || currentUserId;
+    const {dispatch} = nextProps;
+    if (token) {
+      dispatch(fetchUser(userId, token));
+      dispatch(fetchAllJogRecords(userId, token));
+    }
   }
 
   state = {}
@@ -196,10 +247,6 @@ class JogRecordsListPage extends Component {
       position: 'relative'
     };
 
-    const newFormWrapperStyle = {
-      marginTop: '40px'
-    };
-
     return (
       <div>
         <div className="pull-right" style={filterWrapperStyle}>
@@ -220,13 +267,7 @@ class JogRecordsListPage extends Component {
             />
           </form>
         </div>
-        <PageHeader>
-          Your Jogging Records
-        </PageHeader>
-        <div style={newFormWrapperStyle}>
-          <h3>Create New Record</h3>
-          <NewJogForm />
-        </div>
+        <JogRecordsPageHeader userId={this.props.params.userId} />
         <JogRecords
           filterFrom={this.state.filterFrom}
           filterTo={this.state.filterTo}
@@ -237,10 +278,4 @@ class JogRecordsListPage extends Component {
 
 };
 
-const stateToProps = (state) => {
-  return {
-    session: state.session
-  };
-};
-
-export default connect(stateToProps)(JogRecordsListPage);
+export default connect(exposeSession)(JogRecordsListPage);

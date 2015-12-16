@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Editable} from './common';
+import {Editable, exposeSession} from './common';
+import {pushState} from 'redux-router';
 
 import {
  fetchAllUsers
@@ -19,8 +21,16 @@ import {
   EditUserForm
 } from './user-form';
 
-const UserCell = ({data, onEditBtnClick}) => {
+const UserCell = connect(exposeSession)(({
+  data, onEditBtnClick,
+  session, dispatch
+}) => {
   const user = data;
+
+  const gotoUserJogRecordBtn = _.include(session.roles, 'admin') ?
+    <Button
+      onClick={() => dispatch(pushState(null, `/users/${user.id}/records`))}
+    >Jogging Records</Button> : null;
 
   return (
     <Panel>
@@ -38,11 +48,13 @@ const UserCell = ({data, onEditBtnClick}) => {
           >
             Edit
           </Button>
+          &nbsp;
+          {gotoUserJogRecordBtn}
         </Col>
       </Row>
     </Panel>
   );
-};
+});
 
 const EditableUserCell = ({user}) => (
   <Editable
@@ -105,11 +117,4 @@ export default class UserListPage extends Component {
 
 }
 
-// TODO: reduce duplicate code
-const stateToProps = (state) => {
-  return {
-    session: state.session
-  };
-};
-
-export default connect(stateToProps)(UserListPage);
+export default connect(exposeSession)(UserListPage);

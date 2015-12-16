@@ -62,6 +62,7 @@ const routes = (
     <Route path="/" component={App}>
       <IndexRoute component={JogRecords} />
 
+      <Route path="users/:userId/records" component={JogRecords} />
       <Route path="users" component={UserList} />
 
       <Route path="signup" component={Signup} />
