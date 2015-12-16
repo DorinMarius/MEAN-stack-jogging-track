@@ -52,6 +52,11 @@ describe('session', function () {
    *    manager - block
    *    admin   - ok
    *    test fields (date, distance, time)
+   *
+   * change role of permission
+   *    toggle admin
+   *    toggle manager
+   *    only admin can do it
    */
 });
 
