@@ -70,6 +70,7 @@ module.exports = function (app) {
     return Math.floor((Math.random() * n));
   };
 
+  app.importing = true;
   createUsers(
     admins.
     concat(managers).
@@ -109,6 +110,8 @@ module.exports = function (app) {
   }).
   catch(console.error).
   done(function () {
+    delete app.importing;
+    app.emit('import done');
     console.log('Preparing sample data done');
   });
 };
