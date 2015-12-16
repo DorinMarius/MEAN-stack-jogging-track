@@ -217,12 +217,16 @@ export const USER_DELETED = 'USER_DELETED';
 
 export const fetchAllUsers = (token) => {
   return dispatch => {
+    // TODO reduce duplicate code
+    const filter = encodeURIComponent(JSON.stringify({
+      include: 'roles'
+    }));
+
     $get({
-      path: `/users`,
+      path: `/users?filter=${filter}`,
       token
     }).
     done((json) => {
-      console.log(json);
       dispatch({
         type: USERS_UPDATED,
         users: json
